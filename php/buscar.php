@@ -1,4 +1,3 @@
-
 <?php
 
 
@@ -10,18 +9,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $_POST["condicion"] = (isset($_POST["condicion"]) && count($_POST["condicion"]) === 1) ? $_POST["condicion"][0] : "";
     extract($_POST);
+    var_dump($_POST);
 
     $condiciones = array();
 
     $condiciones[] = "disponible";
-    
+
     if (isset($_POST["tipo"])) {
         $tipo = "'" . implode("','", $tipo) . "'";
         $condiciones[] = "vehiculo_categoria IN ($tipo)";
     }
 
     if ($condicion != "") {
-       
+
         $condiciones[] = "nuevo = '$condicion'";
     }
 
@@ -33,21 +33,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $condiciones[] = "idVehiculos_Modelos = '$modelo'";
     } 
 
-    if (!empty($anioMin)) {
-      
-        $condiciones[] = "year >= $anioMin";
+    if (!empty($anio_min)) {
+
+        $condiciones[] = "year >= $anio_min";
     }
 
-    if (!empty($anioMax)) {
-        $condiciones[] = "year <= $anioMax";
+    if (!empty($anio_max)) {
+        $condiciones[] = "year <= $anio_max";
     }
 
-    if (!empty($precioMin)) {
-        $condiciones[] = "precio >= $precioMin";
+    if (!empty($precio_min)) {
+        $condiciones[] = "precio >= $precio_min";
     }
 
-    if (!empty($precioMax)) {
-        $condiciones[] = "precio <= $precioMax";
+    if (!empty($precio_max)) {
+        $condiciones[] = "precio <= $precio_max";
     }
 
     $sql = "select * from vehiculos_venta left JOIN vehiculos_modelos on idVehiculos_Modelos = vehiculo_modelo  join vehiculos_marcas on vehiculos_modelos.marca = vehiculos_marcas.idVehiculos_Marca join vehiculo_categoria on vehiculos_venta.vehiculo_Categoria = vehiculo_categoria.idVehiculo_Categoria" ;
@@ -59,9 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $_SESSION['query'] = $sql;
     $_SESSION['post'] = $_POST;
-  
-    var_dump($sql);
-   
+
+
     header("Location: ../pages/resultado.php"); 
 }
 
