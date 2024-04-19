@@ -21,7 +21,7 @@ $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
 
     <link href="../css/output.css" rel="stylesheet">
     <link href="../css/input.css" rel="stylesheet">
-    <title>Login</title>
+    <title>Resultados</title>
 
 </head>
 
