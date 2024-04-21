@@ -167,6 +167,18 @@ function EditarIntervalo(data) {
     
 }
 
+function EditarCombustible(data) {
+
+    const modal = document.getElementById("combustibleForm");
+    document.getElementById("titulo").innerText ="Modificar Combustible";
+    modal.accion.value = "update";
+    modal.id.value = data.idconsumo;
+    modal.combustible.value = data.descripTipoconsumo;
+    modal.combustibleMin.value = data.tc_valinicial;
+    modal.combustibleMax.value = data.tc_valfinal;
+    
+}
+
 function Eliminar(data) {
 
     console.log(data);
