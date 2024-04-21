@@ -9,9 +9,9 @@ if (!isset($_SESSION['persona']['isInterno']) || $_SESSION['persona']['isInterno
 require("../php/connection.php");
 $marcas = $mysqli->query("SELECT * FROM `vehiculos_marcas`");
 $marcas2 = $mysqli->query("SELECT * FROM `vehiculos_marcas`");
-
 $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos` join vehiculos_marcas on marca = idVehiculos_Marca ");
 $caracteristicas = $mysqli->query("SELECT * FROM `vehiculo_caracteristicas`");
+$baul = $mysqli->query("SELECT * FROM `tamanobaul`");
 $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
 ?>
 <!DOCTYPE html>
@@ -33,7 +33,7 @@ $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
     <link href="../DataTables/datatables.min.css" rel="stylesheet">
 
 
-    <title>Login</title>
+    <title>Mantenimientos</title>
 
 </head>
 
@@ -57,6 +57,7 @@ $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
                 <button mostrar="#modelos" class="activar bg-orange-400 rounded-md p-2">Modelos</button>
                 <button mostrar="#caracteristica" class="activar bg-orange-400 rounded-md p-2">Caracteristica</button>
                 <button mostrar="#categoria" class="activar bg-orange-400 rounded-md p-2">Categoria</button>
+                <button mostrar="#intervalos" class="activar bg-orange-400 rounded-md p-2">Capacidades de Baules</button>
             </div>
             <?php
             if (isset($_SESSION['error_message'])) {
@@ -269,7 +270,6 @@ $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
                     <tr>
                         <th>id</th>
                         <th>categoria</th>
-
                         <th>Accion</th>
                     </tr>
                 </thead>
@@ -315,6 +315,72 @@ $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
                         <th>Accion</th>
                     </tr>
                 </tfoot>
+            </table>
+        </div>
+
+
+        <div id="intervalos" class="contenedor hidden">
+        <div class="flex justify-end">
+                <button class="flex items-cent gap-2 bg-green-500 p-2 rounded-md text-white" data-modal-target="intervalo-modal" data-modal-toggle="intervalo-modal">
+                    <span>Añadir Intervalo</span>
+                    <div class="w-5">
+                        <img class="w-full h-full" src="../svg/add.svg" alt="">
+                    </div>
+                </button>
+            </div>
+            <table id="table_intervalo" class=" display table bg-gray-50 py-2   ">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Descripcion de Baul</th>
+                        <th>Tamaño Minimo del  Baul</th>
+                        <th>Tamaño Maximo del Baul</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if ($baul) {
+                        if ($baul->num_rows > 0) {
+                            while ($datos = $baul->fetch_assoc()) {
+                                $eliminar = array(
+                                    'query' => "delete from tamanoBaul where idTamanoBaul = " . $datos['idTamanoBaul'],
+                                    'msj' =>  "Eliminar  " . $datos['descripBaul']
+                                );
+                    ?>
+                                <tr>
+                                    <td><?php echo $datos['idTamanoBaul']; ?></td>
+                                    <td><?php echo $datos['descripBaul']; ?></td>
+                                    <td><?php echo $datos['capacidadMinBaul']; ?></td>
+                                    <td><?php echo $datos['capacidadMaxBaul']; ?></td>
+                                    <td>
+                                        <div class="flex gap-2 w-12 justify-center overflow-hidden bg-transparent">
+                                            <div>
+                                                <img onclick='EditarIntervalo(<?php echo json_encode($datos); ?>)' data-modal-target="intervalo-modal" data-modal-toggle="intervalo-modal" class="cursor-pointer" src="../svg/edit.svg" alt="">
+                                            </div>
+                                            <div>
+                                                <img onclick='Eliminar(<?php echo json_encode($eliminar); ?> )' data-modal-target="delete-modal" data-modal-toggle="delete-modal" src="../svg/trash.svg" class="cursor-pointer" alt="">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                    <?php
+                            }
+                        }
+                    } else {
+                        echo "<tr><td colspan='5'>Error executing the query: " . $mysqli->error . "</td></tr>";
+                    }
+                    ?>
+                </tbody>
+               <!-- <tfoot>
+                    <tr>
+                        <th>id</th>
+                        <th>Descripcion de Baul</th>
+                        <th>Tamaño Maximo del Baul</th>
+                        <th>Tamaño Minimo del  Baul</th>
+                        <th>Accion</th>
+                    </tr>
+                </tfoot> -->
             </table>
         </div>
 

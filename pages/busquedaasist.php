@@ -4,6 +4,7 @@ $marcas = $mysqli->query("SELECT * FROM `vehiculos_marcas`");
 $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
 $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
 $combustible = $mysqli->query("SELECT * FROM `combustible`");
+$transmision = $mysqli->query("SELECT * FROM `transmision`");
 $caracteristicas = $mysqli->query("SELECT * FROM `vehiculo_caracteristicas`");
 $capacidadbaul = $mysqli->query("SELECT * FROM `tamanobaul`");
 $favoritos = $mysqli->query("select * from favoritos left join vehiculos_venta on favoritos.idVehiculo = vehiculos_venta.idVehiculos_Venta left JOIN vehiculos_modelos on idVehiculos_Modelos = vehiculo_modelo  join vehiculos_marcas on vehiculos_modelos.marca = vehiculos_marcas.idVehiculos_Marca join vehiculo_categoria on vehiculos_venta.vehiculo_Categoria = vehiculo_categoria.idVehiculo_Categoria");
@@ -131,7 +132,7 @@ $favoritos = $mysqli->query("select * from favoritos left join vehiculos_venta o
                         while ($datos = $capacidadbaul->fetch_assoc()) {
                         ?>
                             <label class="bg-orange-600 rounded-lg p-1 ps-5 flex items-center h-fit">
-                                <input type="checkbox" name="tipo[]" value="<?php echo $datos['idTamanoBaul'] ?>">&nbsp;<?php echo $datos['capacidadBaul'] ?>
+                                <input type="checkbox" name="tipo[]" value="<?php echo $datos['idTamanoBaul'] ?>">&nbsp;<?php echo $datos['descripBaul'] ?>
                             </label>
                         <?php
                         }
@@ -146,10 +147,21 @@ $favoritos = $mysqli->query("select * from favoritos left join vehiculos_venta o
             <!-- Tipo transmision -->
             <div style="margin-top: 75px;;">
                 <label for="transmission" class="block text-sm font-medium text-gray-700 textSZ">¿Qué transmisión quieres?</label>
-                <select id="transmission" name="transmission" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <option value="automatic">Automatica</option>
-                    <option value="manual">Manual</option>
-                </select>
+                <select id="transmision" onchange="updateTransmision()" name="transmision" placeholder="transmision">
+                                <option value="" selected>Transmision</option>
+                                <?php
+                                if ($transmision) {
+                                    if ($marcas->num_rows > 0) {
+                                        while ($datos = $transmision->fetch_assoc()) {
+                                            echo "<option value=\"{$datos['idtransmision']}\">{$datos['descripTrans']}</option>";
+                                        }
+                                    }
+                                    $transmision->free();
+                                } else {
+                                    echo "<option >Error executing the query: " . $mysqli->error . "</option>";
+                                }
+                                ?>
+                            </select>
             </div>
             
             <!-- Enviar -->

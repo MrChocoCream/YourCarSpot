@@ -155,6 +155,17 @@ function EditarCaracteristica(data) {
        
     }
   
+function EditarIntervalo(data) {
+
+    const modal = document.getElementById("intervaloForm");
+    document.getElementById("titulo").innerText ="Modificar Intervalo";
+    modal.accion.value = "update";
+    modal.id.value = data.idTamanoBaul;
+    modal.intervalo.value = data.descripBaul;
+    modal.intervaloMin.value = data.capacidadMinBaul;
+    modal.intervaloMax.value = data.capacidadMaxBaul;
+    
+}
 
 function Eliminar(data) {
 

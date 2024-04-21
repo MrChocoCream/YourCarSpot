@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2024 at 03:39 AM
+-- Generation Time: Apr 21, 2024 at 06:47 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -642,19 +642,21 @@ CREATE TABLE `sub_categorias` (
 
 CREATE TABLE `tamanobaul` (
   `idTamanoBaul` int(1) NOT NULL,
-  `capacidadBaul` varchar(50) NOT NULL
+  `descripBaul` varchar(50) NOT NULL,
+  `capacidadMinBaul` int(10) NOT NULL,
+  `capacidadMaxBaul` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tamanobaul`
 --
 
-INSERT INTO `tamanobaul` (`idTamanoBaul`, `capacidadBaul`) VALUES
-(1, '1 Maleta (120 litros)'),
-(2, '2 Maletas (240 litros)'),
-(3, '3 Maletas (360 litros)'),
-(4, '4 Maletas (480 litros)'),
-(5, 'Mas de 5 Maletas (600 Litros)');
+INSERT INTO `tamanobaul` (`idTamanoBaul`, `descripBaul`, `capacidadMinBaul`, `capacidadMaxBaul`) VALUES
+(1, 'Baul Pequeño', 1, 120),
+(2, 'Baul Mediano', 121, 240),
+(3, 'Baul Promedio', 241, 360),
+(4, 'Baul Grande', 361, 480),
+(5, 'Baul Extra Grande', 481, 600);
 
 -- --------------------------------------------------------
 
@@ -785,6 +787,25 @@ INSERT INTO `tipotelefono` (`idtipoTelefono`, `tipoTel`) VALUES
 (3, 'Trabajo'),
 (4, 'Fax'),
 (5, 'Otro');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transmision`
+--
+
+CREATE TABLE `transmision` (
+  `idtransmision` int(1) NOT NULL,
+  `descripTrans` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `transmision`
+--
+
+INSERT INTO `transmision` (`idtransmision`, `descripTrans`) VALUES
+(1, 'Automatica'),
+(2, 'Mecanica');
 
 -- --------------------------------------------------------
 
@@ -966,7 +987,7 @@ CREATE TABLE `vehiculos_venta` (
   `image` varchar(100) NOT NULL,
   `puertas` varchar(20) NOT NULL,
   `motor` varchar(20) NOT NULL,
-  `trasmision` varchar(20) NOT NULL,
+  `transmision` int(1) NOT NULL,
   `traccion` varchar(20) NOT NULL,
   `pasajeros` varchar(20) NOT NULL,
   `color` varchar(20) NOT NULL,
@@ -979,28 +1000,28 @@ CREATE TABLE `vehiculos_venta` (
 -- Dumping data for table `vehiculos_venta`
 --
 
-INSERT INTO `vehiculos_venta` (`idVehiculos_Venta`, `vehiculo_matricula`, `precio`, `millage`, `fecha_adquisicion`, `year`, `vehiculo_modelo`, `vehiculo_Categoria`, `nuevo`, `image`, `puertas`, `motor`, `trasmision`, `traccion`, `pasajeros`, `color`, `disponible`, `tipocombustible`, `tamano_baul`) VALUES
-(1, 'ABC123', 25000, 20000, '2023-01-01', '2022', 1, 1, 1, 'corolla.jpg', '', '', '', '', '', '', 0, 1, 2),
-(2, 'DEF456', 28000, 15000, '2023-01-02', '2022', 2, 1, 1, 'civic.jpg', '', '', '', '', '', '', 0, 1, 2),
-(3, 'GHI789', 32000, 10000, '2023-01-03', '2022', 3, 2, 1, 'f150.jpg', '', '', '', '', '', '', 0, 1, 2),
-(4, 'JKL012', 35000, 12000, '2023-01-04', '2022', 4, 2, 1, 'silverado.jpg', '', '', '', '', '', '', 0, 1, 2),
-(5, 'MNO345', 26000, 18000, '2023-01-05', '2022', 5, 3, 1, 'altima.jpg', '', '', '', '', '', '', 0, 1, 2),
-(6, 'PQR678', 34000, 8000, '2023-01-06', '2022', 6, 1, 1, '3series.jpg', '', '', '', '', '', '', 0, 1, 2),
-(7, 'STU901', 39000, 7000, '2023-01-07', '2022', 7, 1, 1, 'cclass.jpg', '', '', '', '', '', '', 0, 1, 2),
-(8, 'VWX234', 42000, 5000, '2023-01-08', '2022', 8, 2, 1, 'a4.jpg', '', '', '', '', '', '', 0, 1, 2),
-(9, 'YZA567', 28000, 12000, '2023-01-09', '2022', 26, 1, 1, 'elantra.jpg', '', '', '', '', '', '', 1, 1, 2),
-(10, 'BCD890', 31000, 9000, '2023-01-10', '2022', 10, 3, 1, 'sorento.jpg', '', '', '', '', '', '', 0, 1, 2),
-(11, 'EFG123', 28000, 17000, '2023-01-11', '2022', 11, 3, 1, 'golf.jpg', '', '', '', '', '', '', 1, 1, 2),
-(12, 'HIJ456', 33000, 15000, '2023-01-12', '2022', 12, 1, 1, 'cx5.jpg', '', '', '', '', '', '', 1, 1, 2),
-(13, 'KLM789', 38000, 12000, '2023-01-13', '2022', 13, 1, 1, 'outback.jpg', '', '', '', '', '', '', 1, 1, 2),
-(14, 'NOP012', 39000, 18000, '2023-01-14', '2022', 14, 2, 1, 'wrangler.jpg', '', '', '', '', '', '', 1, 1, 2),
-(15, 'QRS345', 45000, 8000, '2023-01-15', '2022', 15, 2, 1, 'rx.jpg', '', '', '', '', '', '', 1, 1, 2),
-(16, 'TUV678', 32000, 20000, '2023-01-16', '2022', 16, 3, 1, 'xc60.jpg', '', '', '', '', '', '', 1, 1, 2),
-(17, 'WXY901', 49000, 7000, '2023-01-17', '2022', 17, 3, 1, '488gtb.jpg', '', '', '', '', '', '', 1, 1, 2),
-(18, 'ZAB234', 52000, 6000, '2023-01-18', '2022', 18, 1, 1, '911.jpg', '', '', '', '', '', '', 1, 1, 2),
-(19, 'CDE567', 80000, 3000, '2023-01-19', '2022', 19, 1, 1, 'models.jpg', '', '', '', '', '', '', 1, 1, 2),
-(20, 'FGH890', 85000, 5000, '2023-01-20', '2022', 20, 2, 1, 'rangerover.jpg', '', '', '', '', '', '', 1, 1, 2),
-(23, 'ASDQ', 56222000, 0, '0000-00-00', '2035', 24, 9, 1, '', '2', 'V12', 'semi-auto', 'AWD', '2', '2', 0, 1, 2);
+INSERT INTO `vehiculos_venta` (`idVehiculos_Venta`, `vehiculo_matricula`, `precio`, `millage`, `fecha_adquisicion`, `year`, `vehiculo_modelo`, `vehiculo_Categoria`, `nuevo`, `image`, `puertas`, `motor`, `transmision`, `traccion`, `pasajeros`, `color`, `disponible`, `tipocombustible`, `tamano_baul`) VALUES
+(1, 'ABC123', 25000, 20000, '2023-01-01', '2022', 1, 1, 1, 'corolla.jpg', '', '', 1, '', '', '', 0, 1, 2),
+(2, 'DEF456', 28000, 15000, '2023-01-02', '2022', 2, 1, 1, 'civic.jpg', '', '', 1, '', '', '', 0, 1, 2),
+(3, 'GHI789', 32000, 10000, '2023-01-03', '2022', 3, 2, 1, 'f150.jpg', '', '', 1, '', '', '', 0, 1, 2),
+(4, 'JKL012', 35000, 12000, '2023-01-04', '2022', 4, 2, 1, 'silverado.jpg', '', '', 1, '', '', '', 0, 1, 2),
+(5, 'MNO345', 26000, 18000, '2023-01-05', '2022', 5, 3, 1, 'altima.jpg', '', '', 1, '', '', '', 0, 1, 2),
+(6, 'PQR678', 34000, 8000, '2023-01-06', '2022', 6, 1, 1, '3series.jpg', '', '', 1, '', '', '', 0, 1, 2),
+(7, 'STU901', 39000, 7000, '2023-01-07', '2022', 7, 1, 1, 'cclass.jpg', '', '', 1, '', '', '', 0, 1, 2),
+(8, 'VWX234', 42000, 5000, '2023-01-08', '2022', 8, 2, 1, 'a4.jpg', '', '', 1, '', '', '', 0, 1, 2),
+(9, 'YZA567', 28000, 12000, '2023-01-09', '2022', 26, 1, 1, 'elantra.jpg', '', '', 1, '', '', '', 1, 1, 2),
+(10, 'BCD890', 31000, 9000, '2023-01-10', '2022', 10, 3, 1, 'sorento.jpg', '', '', 1, '', '', '', 0, 1, 2),
+(11, 'EFG123', 28000, 17000, '2023-01-11', '2022', 11, 3, 1, 'golf.jpg', '', '', 1, '', '', '', 1, 1, 2),
+(12, 'HIJ456', 33000, 15000, '2023-01-12', '2022', 12, 1, 1, 'cx5.jpg', '', '', 1, '', '', '', 1, 1, 2),
+(13, 'KLM789', 38000, 12000, '2023-01-13', '2022', 13, 1, 1, 'outback.jpg', '', '', 1, '', '', '', 1, 1, 2),
+(14, 'NOP012', 39000, 18000, '2023-01-14', '2022', 14, 2, 1, 'wrangler.jpg', '', '', 1, '', '', '', 1, 1, 2),
+(15, 'QRS345', 45000, 8000, '2023-01-15', '2022', 15, 2, 1, 'rx.jpg', '', '', 1, '', '', '', 1, 1, 2),
+(16, 'TUV678', 32000, 20000, '2023-01-16', '2022', 16, 3, 1, 'xc60.jpg', '', '', 1, '', '', '', 1, 1, 2),
+(17, 'WXY901', 49000, 7000, '2023-01-17', '2022', 17, 3, 1, '488gtb.jpg', '', '', 1, '', '', '', 1, 1, 2),
+(18, 'ZAB234', 52000, 6000, '2023-01-18', '2022', 18, 1, 1, '911.jpg', '', '', 1, '', '', '', 1, 1, 2),
+(19, 'CDE567', 80000, 3000, '2023-01-19', '2022', 19, 1, 1, 'models.jpg', '', '', 1, '', '', '', 1, 1, 2),
+(20, 'FGH890', 85000, 5000, '2023-01-20', '2022', 20, 2, 1, 'rangerover.jpg', '', '', 1, '', '', '', 1, 1, 2),
+(23, 'ASDQ', 56222000, 0, '0000-00-00', '2035', 24, 9, 1, '', '2', 'V12', 1, 'AWD', '2', '2', 0, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -1271,6 +1292,12 @@ ALTER TABLE `tipotelefono`
   ADD PRIMARY KEY (`idtipoTelefono`);
 
 --
+-- Indexes for table `transmision`
+--
+ALTER TABLE `transmision`
+  ADD PRIMARY KEY (`idtransmision`);
+
+--
 -- Indexes for table `usuairos`
 --
 ALTER TABLE `usuairos`
@@ -1319,7 +1346,8 @@ ALTER TABLE `vehiculos_venta`
   ADD KEY `categoria_idx` (`vehiculo_Categoria`),
   ADD KEY `vehiculo_modelo_UNIQUE` (`vehiculo_modelo`) USING BTREE,
   ADD KEY `combustible` (`tipocombustible`),
-  ADD KEY `capacidadBaul` (`tamano_baul`);
+  ADD KEY `capacidadBaul` (`tamano_baul`),
+  ADD KEY `transmision` (`transmision`);
 
 --
 -- Indexes for table `vehiculo_caracteristicas`
@@ -1348,6 +1376,12 @@ ALTER TABLE `categorias`
 --
 ALTER TABLE `cliente`
   MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `combustible`
+--
+ALTER TABLE `combustible`
+  MODIFY `idcombustible` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `correos`
@@ -1456,6 +1490,12 @@ ALTER TABLE `seguros`
 --
 ALTER TABLE `sub_categorias`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tamanobaul`
+--
+ALTER TABLE `tamanobaul`
+  MODIFY `idTamanoBaul` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `telefono`
@@ -1666,6 +1706,7 @@ ALTER TABLE `vehiculos_venta`
   ADD CONSTRAINT `capacidadBaul` FOREIGN KEY (`tamano_baul`) REFERENCES `tamanobaul` (`idTamanoBaul`),
   ADD CONSTRAINT `categoria` FOREIGN KEY (`vehiculo_Categoria`) REFERENCES `vehiculo_categoria` (`idVehiculo_Categoria`),
   ADD CONSTRAINT `combustible` FOREIGN KEY (`tipocombustible`) REFERENCES `combustible` (`idcombustible`),
+  ADD CONSTRAINT `transmision` FOREIGN KEY (`transmision`) REFERENCES `transmision` (`idtransmision`),
   ADD CONSTRAINT `vehiculos_venta_FK` FOREIGN KEY (`vehiculo_modelo`) REFERENCES `vehiculos_modelos` (`idVehiculos_Modelos`);
 COMMIT;
 
