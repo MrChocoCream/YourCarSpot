@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2024 at 01:06 AM
+-- Generation Time: Apr 25, 2024 at 04:17 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -66,7 +66,23 @@ INSERT INTO `caracteristicasvsvehiculoventa` (`IdCaracteristica`, `IdVehiculoVen
 (15, 23),
 (1, 14),
 (16, 14),
-(3, 14);
+(3, 14),
+(1, 47),
+(1, 56),
+(2, 56),
+(4, 56),
+(6, 56),
+(9, 56),
+(10, 56),
+(1, 57),
+(2, 57),
+(4, 57),
+(6, 57),
+(9, 57),
+(10, 57),
+(2, 58),
+(2, 59),
+(2, 60);
 
 -- --------------------------------------------------------
 
@@ -815,6 +831,27 @@ INSERT INTO `tipotelefono` (`idtipoTelefono`, `tipoTel`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tracciones`
+--
+
+CREATE TABLE `tracciones` (
+  `idTraccion` int(11) NOT NULL,
+  `descripTraccion` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tracciones`
+--
+
+INSERT INTO `tracciones` (`idTraccion`, `descripTraccion`) VALUES
+(1, 'RWD'),
+(2, 'FWD'),
+(3, 'AWD'),
+(4, '4X4');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `transmision`
 --
 
@@ -1003,7 +1040,7 @@ CREATE TABLE `vehiculos_venta` (
   `vehiculo_matricula` varchar(10) NOT NULL,
   `precio` float NOT NULL,
   `millage` float NOT NULL,
-  `fecha_adquisicion` date NOT NULL,
+  `fecha_adquisicion` date NOT NULL DEFAULT current_timestamp(),
   `year` varchar(45) NOT NULL,
   `vehiculo_modelo` int(11) DEFAULT NULL,
   `vehiculo_Categoria` int(11) NOT NULL,
@@ -1012,7 +1049,7 @@ CREATE TABLE `vehiculos_venta` (
   `puertas` varchar(20) NOT NULL,
   `motor` varchar(20) NOT NULL,
   `transmision` int(1) NOT NULL,
-  `traccion` varchar(20) NOT NULL,
+  `traccion` int(1) NOT NULL,
   `pasajeros` varchar(20) NOT NULL,
   `color` varchar(20) NOT NULL,
   `disponible` tinyint(1) NOT NULL,
@@ -1026,27 +1063,33 @@ CREATE TABLE `vehiculos_venta` (
 --
 
 INSERT INTO `vehiculos_venta` (`idVehiculos_Venta`, `vehiculo_matricula`, `precio`, `millage`, `fecha_adquisicion`, `year`, `vehiculo_modelo`, `vehiculo_Categoria`, `nuevo`, `image`, `puertas`, `motor`, `transmision`, `traccion`, `pasajeros`, `color`, `disponible`, `tipocombustible`, `tipoconsumo`, `tamano_baul`) VALUES
-(1, 'ABC123', 25000, 20000, '2023-01-01', '2022', 1, 1, 1, 'corolla.jpg', '', '', 1, '', '', '', 0, 1, 4, 2),
-(2, 'DEF456', 28000, 15000, '2023-01-02', '2022', 2, 1, 1, 'civic.jpg', '', '', 1, '', '', '', 0, 1, 4, 2),
-(3, 'GHI789', 32000, 10000, '2023-01-03', '2022', 3, 2, 1, 'f150.jpg', '', '', 1, '', '', '', 0, 1, 4, 2),
-(4, 'JKL012', 35000, 12000, '2023-01-04', '2022', 4, 2, 1, 'silverado.jpg', '', '', 1, '', '', '', 0, 1, 4, 2),
-(5, 'MNO345', 26000, 18000, '2023-01-05', '2022', 5, 3, 1, 'altima.jpg', '', '', 1, '', '', '', 0, 1, 4, 2),
-(6, 'PQR678', 34000, 8000, '2023-01-06', '2022', 6, 1, 1, '3series.jpg', '', '', 1, '', '', '', 0, 1, 4, 2),
-(7, 'STU901', 39000, 7000, '2023-01-07', '2022', 7, 1, 1, 'cclass.jpg', '', '', 1, '', '', '', 0, 1, 4, 2),
-(8, 'VWX234', 42000, 5000, '2023-01-08', '2022', 8, 2, 1, 'a4.jpg', '', '', 1, '', '', '', 0, 1, 4, 2),
-(9, 'YZA567', 28000, 12000, '2023-01-09', '2022', 26, 1, 1, 'elantra.jpg', '', '', 1, '', '', '', 1, 1, 4, 2),
-(10, 'BCD890', 31000, 9000, '2023-01-10', '2022', 10, 3, 1, 'sorento.jpg', '', '', 1, '', '', '', 0, 1, 4, 2),
-(11, 'EFG123', 28000, 17000, '2023-01-11', '2022', 11, 3, 1, 'golf.jpg', '', '', 1, '', '', '', 1, 1, 4, 2),
-(12, 'HIJ456', 33000, 15000, '2023-01-12', '2022', 12, 1, 1, 'cx5.jpg', '', '', 1, '', '', '', 1, 1, 4, 2),
-(13, 'KLM789', 38000, 12000, '2023-01-13', '2022', 13, 1, 1, 'outback.jpg', '', '', 1, '', '', '', 1, 1, 4, 2),
-(14, 'NOP012', 39000, 18000, '2023-01-14', '2022', 14, 2, 1, 'wrangler.jpg', '', '', 1, '', '', '', 1, 1, 4, 2),
-(15, 'QRS345', 45000, 8000, '2023-01-15', '2022', 15, 2, 1, 'rx.jpg', '', '', 1, '', '', '', 1, 1, 4, 2),
-(16, 'TUV678', 32000, 20000, '2023-01-16', '2022', 16, 3, 1, 'xc60.jpg', '', '', 1, '', '', '', 1, 1, 4, 2),
-(17, 'WXY901', 49000, 7000, '2023-01-17', '2022', 17, 3, 1, '488gtb.jpg', '', '', 1, '', '', '', 1, 1, 4, 2),
-(18, 'ZAB234', 52000, 6000, '2023-01-18', '2022', 18, 1, 1, '911.jpg', '', '', 1, '', '', '', 1, 1, 4, 2),
-(19, 'CDE567', 80000, 3000, '2023-01-19', '2022', 19, 1, 1, 'models.jpg', '', '', 1, '', '', '', 1, 1, 4, 2),
-(20, 'FGH890', 85000, 5000, '2023-01-20', '2022', 20, 2, 1, 'rangerover.jpg', '', '', 1, '', '', '', 1, 1, 4, 2),
-(23, 'ASDQ', 56222000, 0, '0000-00-00', '2035', 24, 9, 1, '', '2', 'V12', 1, 'AWD', '2', '2', 0, 1, 4, 2);
+(1, 'ABC123', 25000, 20000, '2023-01-01', '2022', 1, 1, 1, 'corolla.jpg', '', '', 1, 2, '', '', 0, 1, 4, 2),
+(2, 'DEF456', 28000, 15000, '2023-01-02', '2022', 2, 1, 1, 'civic.jpg', '', '', 1, 2, '', '', 0, 1, 4, 2),
+(3, 'GHI789', 32000, 10000, '2023-01-03', '2022', 3, 2, 1, 'f150.jpg', '', '', 1, 2, '', '', 0, 1, 4, 2),
+(4, 'JKL012', 35000, 12000, '2023-01-04', '2022', 4, 2, 1, 'silverado.jpg', '', '', 1, 2, '', '', 0, 1, 4, 2),
+(5, 'MNO345', 26000, 18000, '2023-01-05', '2022', 5, 3, 1, 'altima.jpg', '', '', 1, 2, '', '', 0, 1, 4, 2),
+(6, 'PQR678', 34000, 8000, '2023-01-06', '2022', 6, 1, 1, '3series.jpg', '', '', 1, 2, '', '', 0, 1, 4, 2),
+(7, 'STU901', 39000, 7000, '2023-01-07', '2022', 7, 1, 1, 'cclass.jpg', '', '', 1, 2, '', '', 0, 1, 4, 2),
+(8, 'VWX234', 42000, 5000, '2023-01-08', '2022', 8, 2, 1, 'a4.jpg', '', '', 1, 2, '', '', 0, 1, 4, 2),
+(9, 'YZA567', 28000, 12000, '2023-01-09', '2022', 26, 1, 1, 'elantra.jpg', '5', '1.4 L', 1, 2, '5', 'Gris', 1, 1, 4, 2),
+(10, 'BCD890', 31000, 9000, '2023-01-10', '2022', 10, 3, 1, 'sorento.jpg', '', '', 1, 2, '', '', 0, 1, 4, 2),
+(11, 'EFG123', 28000, 17000, '2023-01-11', '2022', 11, 3, 1, 'golf.jpg', '', '', 1, 2, '', '', 1, 1, 4, 2),
+(12, 'HIJ456', 33000, 15000, '2023-01-12', '2022', 12, 1, 1, 'cx5.jpg', '', '', 1, 2, '', '', 1, 1, 4, 2),
+(13, 'KLM789', 38000, 12000, '2023-01-13', '2022', 13, 1, 1, 'outback.jpg', '', '', 1, 2, '', '', 1, 1, 4, 2),
+(14, 'NOP012', 39000, 18000, '2023-01-14', '2022', 14, 2, 1, 'wrangler.jpg', '', '', 1, 2, '', '', 1, 1, 4, 2),
+(15, 'QRS345', 45000, 8000, '2023-01-15', '2022', 15, 2, 1, 'rx.jpg', '', '', 1, 2, '', '', 1, 1, 4, 2),
+(16, 'TUV678', 32000, 20000, '2023-01-16', '2022', 16, 3, 1, 'xc60.jpg', '', '', 1, 2, '', '', 1, 1, 4, 2),
+(17, 'WXY901', 49000, 7000, '2023-01-17', '2022', 17, 3, 1, '488gtb.jpg', '', '', 1, 2, '', '', 1, 1, 4, 2),
+(18, 'ZAB234', 52000, 6000, '2023-01-18', '2022', 18, 1, 1, '911.jpg', '', '', 1, 2, '', '', 1, 1, 4, 2),
+(19, 'CDE567', 80000, 3000, '2023-01-19', '2022', 19, 1, 1, 'models.jpg', '', '', 1, 2, '', '', 1, 1, 4, 2),
+(20, 'FGH890', 85000, 5000, '2023-01-20', '2022', 20, 2, 1, 'rangerover.jpg', '', '', 1, 2, '', '', 1, 1, 4, 2),
+(23, 'ASDQ', 56222000, 0, '0000-00-00', '2035', 24, 9, 1, '', '2', 'V12', 1, 2, '2', '2', 0, 1, 4, 2),
+(47, 'A21071', 700000, 127600, '2024-04-24', '2013', 1, 1, 1, '', '5', '1.4 L', 1, 2, '5', 'AZUL', 1, 1, 5, 3),
+(56, 'A21071', 700000, 0, '2024-04-25', '2013', 1, 1, 0, '', '5', '1.4 L', 1, 1, '5', 'AZUL', 1, 1, 5, 3),
+(57, 'A21072', 700000, 0, '2024-04-25', '2013', 1, 1, 0, 'corolla.jpeg', '5', '1.4 L', 1, 1, '5', 'AZUL', 1, 1, 5, 3),
+(58, 'A21075', 350000, 0, '2024-04-25', '2015', 24, 1, 0, '', '5', '1.4 L', 1, 2, '5', 'AZUL', 1, 1, 4, 3),
+(59, 'A21075', 350000, 0, '2024-04-25', '2015', 5, 1, 0, 'carro_1.png', '5', '1.4 L', 1, 2, '5', 'AZUL', 1, 1, 4, 3),
+(60, 'A21075', 350000, 0, '2024-04-25', '2015', 7, 1, 0, 'Carro_', '5', '1.4 L', 1, 2, '5', 'AZUL', 1, 1, 4, 3);
 
 -- --------------------------------------------------------
 
@@ -1323,6 +1366,12 @@ ALTER TABLE `tipotelefono`
   ADD PRIMARY KEY (`idtipoTelefono`);
 
 --
+-- Indexes for table `tracciones`
+--
+ALTER TABLE `tracciones`
+  ADD PRIMARY KEY (`idTraccion`);
+
+--
 -- Indexes for table `transmision`
 --
 ALTER TABLE `transmision`
@@ -1379,7 +1428,8 @@ ALTER TABLE `vehiculos_venta`
   ADD KEY `combustible` (`tipocombustible`),
   ADD KEY `capacidadBaul` (`tamano_baul`),
   ADD KEY `transmision` (`transmision`),
-  ADD KEY `tipoconsumo` (`tipoconsumo`);
+  ADD KEY `tipoconsumo` (`tipoconsumo`),
+  ADD KEY `traccion` (`traccion`);
 
 --
 -- Indexes for table `vehiculo_caracteristicas`
@@ -1566,6 +1616,12 @@ ALTER TABLE `tipotelefono`
   MODIFY `idtipoTelefono` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `tracciones`
+--
+ALTER TABLE `tracciones`
+  MODIFY `idTraccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `usuairos`
 --
 ALTER TABLE `usuairos`
@@ -1599,7 +1655,7 @@ ALTER TABLE `vehiculos_vendidos`
 -- AUTO_INCREMENT for table `vehiculos_venta`
 --
 ALTER TABLE `vehiculos_venta`
-  MODIFY `idVehiculos_Venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `idVehiculos_Venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `vehiculo_caracteristicas`
@@ -1745,6 +1801,7 @@ ALTER TABLE `vehiculos_venta`
   ADD CONSTRAINT `categoria` FOREIGN KEY (`vehiculo_Categoria`) REFERENCES `vehiculo_categoria` (`idVehiculo_Categoria`),
   ADD CONSTRAINT `combustible` FOREIGN KEY (`tipocombustible`) REFERENCES `combustible` (`idcombustible`),
   ADD CONSTRAINT `tipoconsumo` FOREIGN KEY (`tipoconsumo`) REFERENCES `consumocombustibles` (`idconsumo`),
+  ADD CONSTRAINT `traccion` FOREIGN KEY (`traccion`) REFERENCES `tracciones` (`idTraccion`),
   ADD CONSTRAINT `transmision` FOREIGN KEY (`transmision`) REFERENCES `transmision` (`idtransmision`),
   ADD CONSTRAINT `vehiculos_venta_FK` FOREIGN KEY (`vehiculo_modelo`) REFERENCES `vehiculos_modelos` (`idVehiculos_Modelos`);
 COMMIT;

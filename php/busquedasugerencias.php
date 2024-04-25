@@ -1,6 +1,4 @@
 <?php
-
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     session_start();
@@ -12,9 +10,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $condiciones = array();
     $condiciones[] = "disponible";
 
-    if (isset($_POST["tipo"])) {
-        $tipo = "'" . implode("','", $tipo) . "'";
+    if (isset($_POST["tipo_vehiculo"])) {
+        $tipo = "'" . implode("','", $_POST["tipo_vehiculo"]) . "'";
         $condiciones[] = "vehiculo_categoria IN ($tipo)";
+    }
+
+    if (isset($_POST["tipo_combustible"])) {
+        $tipo = "'" . implode("','", $_POST["tipo_combustible"]) . "'";
+        $condiciones[] = "tipocombustible IN ($tipo)";
+    }
+
+    if (isset($_POST["caracteristicas"])) {
+        $tipo = "'" . implode("','", $_POST["caracteristicas"]) . "'";
+        $condiciones[] = "caracteristicasvsvehiculoventa.IdCaracteristica IN ($tipo)";
+    }
+
+    if (isset($_POST["tamano_bahul"])) {
+        $tipo = "'" . implode("','", $_POST["tamano_bahul"]) . "'";
+        $condiciones[] = "tamano_baul IN ($tipo)";
     }
 
     if ($condicion != "") {
@@ -45,24 +58,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $condiciones[] = "precio <= $precio_max";
     }
 
-    // Define the columns to be included in the WHERE condition
-    $columns = array(
-        "tipocombustible",
-        "tamano_baul"
-    );
-
-    // Loop through each column and add it to the conditions array if it's set in the $_POST data
-    foreach ($columns as $column) {
-        if (!empty($_POST[$column])) {
-            // Assuming $column is a string column, you might need to sanitize it if it's user input
-            $condiciones[] = "$column = '{$_POST[$column]}'";
-        }
-    }
-
     $sql = "SELECT * FROM vehiculos_venta 
             LEFT JOIN vehiculos_modelos ON idVehiculos_Modelos = vehiculo_modelo  
             JOIN vehiculos_marcas ON vehiculos_modelos.marca = vehiculos_marcas.idVehiculos_Marca 
-            JOIN vehiculo_categoria ON vehiculos_venta.vehiculo_Categoria = vehiculo_categoria.idVehiculo_Categoria";
+            JOIN vehiculo_categoria ON vehiculos_venta.vehiculo_Categoria = vehiculo_categoria.idVehiculo_Categoria
+            JOIN caracteristicasvsvehiculoventa on vehiculos_venta.idVehiculos_Venta = caracteristicasvsvehiculoventa.IdVehiculoVenta
+            JOIN combustible on vehiculos_venta.tipocombustible = combustible.idcombustible";
 
     if (!empty($condiciones)) {
         $sql .= " WHERE " . implode(" AND ", $condiciones);
@@ -73,6 +74,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     header("Location: ../pages/resultado.php");
 }
-
-
 ?>

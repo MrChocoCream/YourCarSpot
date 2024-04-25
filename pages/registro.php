@@ -5,11 +5,24 @@ $caracteristicas = $mysqli->query("SELECT * FROM `vehiculo_caracteristicas`");
 $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
 $marcas = $mysqli->query("SELECT * FROM `vehiculos_marcas`");
 $modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
+$combustible = $mysqli->query("SELECT * FROM `combustible`");
+$transmision = $mysqli->query("SELECT * FROM `transmision`");
+$consumo = $mysqli->query("SELECT * FROM `consumocombustibles`");
+$capacidadbaul = $mysqli->query("SELECT * FROM `tamanobaul`");
+$traccion = $mysqli->query("SELECT * FROM `tracciones`");
 
 $caracteristicas_array = array();
 if (isset($_GET["id"])) {
 
-    $resultado = $mysqli->query("SELECT * from vehiculos_venta left JOIN vehiculos_modelos on idVehiculos_Modelos = vehiculo_modelo  join vehiculos_marcas on vehiculos_modelos.marca = vehiculos_marcas.idVehiculos_Marca join vehiculo_categoria on vehiculos_venta.vehiculo_Categoria = vehiculo_categoria.idVehiculo_Categoria where vehiculos_venta.idVehiculos_Venta =" . $_GET["id"])->fetch_assoc();
+    $resultado = $mysqli->query("SELECT * from vehiculos_venta left JOIN vehiculos_modelos on idVehiculos_Modelos = vehiculo_modelo  
+                                                                    join vehiculos_marcas on vehiculos_modelos.marca = vehiculos_marcas.idVehiculos_Marca 
+                                                                    join vehiculo_categoria on vehiculos_venta.vehiculo_Categoria = vehiculo_categoria.idVehiculo_Categoria 
+                                                                    join transmision on vehiculos_venta.transmision = transmision.idtransmision 
+                                                                    join tracciones on vehiculos_venta.traccion = tracciones.idTraccion
+                                                                    join combustible on vehiculos_venta.tipocombustible = combustible.idcombustible
+                                                                    join consumocombustibles on vehiculos_venta.tipoconsumo = consumocombustibles.idconsumo
+                                                                    join tamanobaul on vehiculos_venta.tamano_baul = tamanobaul.idTamanoBaul 
+                                                                    where vehiculos_venta.idVehiculos_Venta =" . $_GET["id"])->fetch_assoc();
     if ($resultado == null) {
         header("Location: ./registro.php");
         die();
@@ -36,7 +49,7 @@ if (isset($_GET["id"])) {
     <link href="../css/output.css" rel="stylesheet">
     <link href="../css/input.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-    <title>Login</title>
+    <title>Registro de Vehiculos</title>
 
 </head>
 
@@ -46,7 +59,7 @@ if (isset($_GET["id"])) {
     <div class="w-screen p-6 mt-14">
 
         <span class="block text-3xl font-bold border-b-2 border-orange-300 ">Registro de Vehiculo</span>
-        <form action="../controller/vehiculo.php<?php if (isset($_GET["id"])) echo '?id='.$_GET["id"]; ?>" method="post" class="flex flex-col gap-6 items-center mt-4 ">
+        <form action="../controller/vehiculo.php<?php if (isset($_GET["id"])) echo '?id='.$_GET["id"]; ?>" method="post" class="flex flex-col gap-6 items-center mt-4">
             <div id="cuadro" class="flex gap-12">
                 <div class="flex flex-col gap-5">
                     <span class="font-semibold ">Datos Generales:</span>
@@ -56,11 +69,11 @@ if (isset($_GET["id"])) {
                    
                     <label>
                             <span>Matricula</span></br>
-                            <input required  type="text" name="matricula" placeholder="matricula" value="<?php if (isset($vehiculo_matricula)) echo $vehiculo_matricula; ?>">
+                            <input required  type="text" name="Matricula" placeholder="Matricula" value="<?php if (isset($vehiculo_matricula)) echo $vehiculo_matricula; ?>">
                         </label>
                         <label>
                             <span>Color</span></br>
-                            <input required type="text" name="color" placeholder="color" value="<?php if (isset($color)) echo $color; ?>">
+                            <input required type="text" name="color" placeholder="Color" value="<?php if (isset($color)) echo $color; ?>">
                         </label>
 
                         <label>
@@ -85,7 +98,7 @@ if (isset($_GET["id"])) {
                         </label>
                         <label>
                             <span>Modelo</span></br>
-                            <select id="modelo" value="<?php if (isset($vehiculo_modelo)) echo $vehiculo_modelo; ?>" name="modelo">
+                            <select required id="modelo" value="<?php if (isset($vehiculo_modelo)) echo $vehiculo_modelo; ?>" name="modelo">
 
                                 <option value="" selected>Modelo</option>
                             </select>
@@ -93,7 +106,7 @@ if (isset($_GET["id"])) {
 
 
                         <label>
-                            <span>Tipo de Vehiculo</span><br>
+                            <span>Tipo de Vehiculo</span></br>
                             <select id="categoria" name="categoria">
 
                                 <option value="" <?php if (!isset($vehiculo_Categoria)) echo 'selected'; ?>>Tipo</option>
@@ -166,17 +179,120 @@ if (isset($_GET["id"])) {
                     <span class="font-semibold">Datos tecnicos</span>
                     <label>
                         <span>Motor</span></br>
-                        <input required type="text" name="motor" value="<?php if (isset($precio)) echo  $motor; ?>" placeholder="motor ">
+                        <input required type="text" name="motor" value="<?php if (isset($precio)) echo  $motor; ?>" placeholder="Motor ">
                     </label>
 
                     <label>
                         <span>Trasmision</span></br>
-                        <input required type="text" name="trasmision" value="<?php if (isset($precio)) echo  $trasmision; ?>" placeholder="Trasmision ">
+                        <div>
+                            <select id="Transmision" name="transmision" placeholder="Transmision">
+                                <option value="" <?php if (!isset($transmision)) echo 'selected'; ?>>Transmision</option>
+                                <?php
+                                if ($transmision) {
+                                    if ($transmision->num_rows > 0) {
+                                        while ($datos = $transmision->fetch_assoc()) {
+                                            $selected = (isset($transmision) && $transmision == $datos['idtransmision']) ? 'selected' : '';
+                                            echo "<option value=\"{$datos['idtransmision']}\" $selected>{$datos['descripTrans']}</option>";
+                                        }
+                                    }
+                                    $transmision->free();
+                                } else {
+                                    echo "<option>Error executing the query: " . $mysqli->error . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
                     </label>
+
                     <label>
                         <span>Traccion</span></br>
-                        <input required type="text" name="traccion" value="<?php if (isset($precio)) echo  $traccion; ?>"  placeholder="Traccion ">
+                        <div>
+                            <select id="traccion" name="traccion" placeholder="Traccion">
+                                <option value="" <?php if (!isset($traccion)) echo 'selected'; ?>>Traccion</option>
+                                <?php
+                                if ($traccion) {
+                                    if ($traccion->num_rows > 0) {
+                                        while ($datos = $traccion->fetch_assoc()) {
+                                            $selected = (isset($traccion) && $traccion == $datos['idTraccion']) ? 'selected' : '';
+                                            echo "<option value=\"{$datos['idTraccion']}\" $selected>{$datos['descripTraccion']}</option>";
+                                        }
+                                    }
+                                    $traccion->free();
+                                } else {
+                                    echo "<option>Error executing the query: " . $mysqli->error . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
                     </label>
+
+                    <label>
+                        <span>Tipo Combustible</span></br>
+                        <div>
+                            <select id="combustible" name="combustible" placeholder="Combustible">
+                                <option value="" <?php if (!isset($combustible)) echo 'selected'; ?>>Combustible</option>
+                                <?php
+                                if ($combustible) {
+                                    if ($combustible->num_rows > 0) {
+                                        while ($datos = $combustible->fetch_assoc()) {
+                                            $selected = (isset($combustible) && $combustible == $datos['idcombustible']) ? 'selected' : '';
+                                            echo "<option value=\"{$datos['idcombustible']}\" $selected>{$datos['descripcionCb']}</option>";
+                                        }
+                                    }
+                                    $combustible->free();
+                                } else {
+                                    echo "<option>Error executing the query: " . $mysqli->error . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </label>
+
+                    <label>
+                        <span>Rendimiento de Combustible</span></br>
+                        <div>
+                            <select id="rendimiento" name="rendimiento" placeholder="Rendimiento">
+                                <option value="" <?php if (!isset($combustible)) echo 'selected'; ?>>Rendimiento</option>
+                                <?php
+                                if ($consumo) {
+                                    if ($consumo->num_rows > 0) {
+                                        while ($datos = $consumo->fetch_assoc()) {
+                                            $selected = (isset($consumo) && $consumo == $datos['idconsumo']) ? 'selected' : '';
+                                            echo "<option value=\"{$datos['idconsumo']}\" $selected>{$datos['descripTipoconsumo']}</option>";
+                                        }
+                                    }
+                                    $consumo->free();
+                                } else {
+                                    echo "<option>Error executing the query: " . $mysqli->error . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </label>
+
+
+                    <label>
+                    <span>Capacidadd del Baul</span></br>
+                        <div>
+                            <select id="baul" name="baul" placeholder="Baul">
+                                <option value="" <?php if (!isset($capacidadbaul)) echo 'selected'; ?>>Capacidad</option>
+                                <?php
+                                if ($capacidadbaul) {
+                                    if ($capacidadbaul->num_rows > 0) {
+                                        while ($datos = $capacidadbaul->fetch_assoc()) {
+                                            $selected = (isset($capacidadbaul) && $capacidadbaul == $datos['idTamanoBaul']) ? 'selected' : '';
+                                            echo "<option value=\"{$datos['idTamanoBaul']}\" $selected>{$datos['descripBaul']}</option>";
+                                        }
+                                    }
+                                    $capacidadbaul->free();
+                                } else {
+                                    echo "<option>Error executing the query: " . $mysqli->error . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </label>
+
                     <label>
                         <span>Pasajeros</span></br>
                         <input required type="text" name="pasajeros" value="<?php if (isset($pasajeros)) echo  $pasajeros; ?>"  placeholder="Pasajeros ">
@@ -195,7 +311,7 @@ if (isset($_GET["id"])) {
                 </label>
                 <label>
                     <span>Subir Fotos</span>
-                    <input  type="file" class="hidden">
+                    <input name="foto" class="w-full text-center  py-4 mt-5 bg-orange-600 rounded-lg text-sm  font-semibold text-white" type="file" class="hidden">
                 </label>
 
                 <button class="w-full text-center  py-4 mt-5 bg-orange-600 rounded-lg text-sm  font-semibold text-white" type="submit">Registrar Vehiculo</a>

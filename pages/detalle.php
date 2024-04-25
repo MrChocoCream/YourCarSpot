@@ -7,7 +7,7 @@ if (!isset($_GET["id"])) {
 }
 
 $caracteristicas = $mysqli->query("SELECT * FROM caracteristicasvsvehiculoventa join vehiculo_caracteristicas on vehiculo_caracteristicas.idVehiculo_Caracteristicas = caracteristicasvsvehiculoventa.IdCaracteristica where IdVehiculoVenta =" . $_GET["id"]);
-$resultado = $mysqli->query("SELECT * from vehiculos_venta JOIN vehiculos_modelos on idVehiculos_Modelos = vehiculo_modelo  join vehiculos_marcas on vehiculos_modelos.marca = vehiculos_marcas.idVehiculos_Marca join vehiculo_categoria on vehiculos_venta.vehiculo_Categoria = vehiculo_categoria.idVehiculo_Categoria where vehiculos_venta.idVehiculos_Venta =" . $_GET["id"])->fetch_assoc();
+$resultado = $mysqli->query("SELECT * from vehiculos_venta JOIN vehiculos_modelos on idVehiculos_Modelos = vehiculo_modelo  join vehiculos_marcas on vehiculos_modelos.marca = vehiculos_marcas.idVehiculos_Marca join vehiculo_categoria on vehiculos_venta.vehiculo_Categoria = vehiculo_categoria.idVehiculo_Categoria join transmision on idtransmision = transmision join tracciones on idTraccion join combustible on idcombustible = tipocombustible where vehiculos_venta.idVehiculos_Venta =" . $_GET["id"])->fetch_assoc();
 if ($resultado==null) {
     header("Location: ./home.php");
     die();
@@ -21,6 +21,8 @@ $marcas = $mysqli->query("SELECT * FROM `vehiculos_marcas`");
 $modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
 */
 
+$trans = $mysqli->query("SELECT descripTrans FROM `transmision`");
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +33,7 @@ $modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
 
     <link href="../css/output.css" rel="stylesheet">
     <link href="../css/input.css" rel="stylesheet">
-    <title>Login</title>
+    <title>Detalle</title>
 
 </head>
 
@@ -55,14 +57,14 @@ $modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
 
             <div class="mt-2 flex flex-col gap-4">
 
-                <div class="w-60 h-40">
-                    <img class="w-full h-full object-cover" src="../pictures/carro_1" alt="">
+                <div class="w-60 h-40 rounded-xl bg-white overflow-hidden">
+                    <img class="oject-center object-cover w-full h-full" src="../pictures/<?php echo is_file("../pictures/carro_" . $_GET["id"]) ? "carro_" . $_GET["id"] : "default.jpg" ?> "alt="">                   
                 </div>
-                <div class="w-60 h-40">
-                    <img class="w-full h-full object-cover" src="../pictures/carro_4" alt="">
+                <div class="w-60 h-40 rounded-xl bg-white overflow-hidden">
+                    <img class="oject-center object-cover w-full h-full" src="../pictures/<?php echo is_file("../pictures/carro_" . $_GET["id"]) ? "carro_" . $_GET["id"] : "default.jpg" ?> "alt="">                   
                 </div>
-                <div class="w-60 h-40">
-                    <img class="w-full h-full object-cover" src="../pictures/carro_3" alt="">
+                <div class="w-60 h-40 rounded-xl bg-white overflow-hidden">
+                    <img class="oject-center object-cover w-full h-full" src="../pictures/<?php echo is_file("../pictures/carro_" . $_GET["id"]) ? "carro_" . $_GET["id"] : "default.jpg" ?> "alt="">                   
                 </div>
             </div>
             <div class="flex flex-col font-semibold gap-1 ">
@@ -81,8 +83,9 @@ $modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
                         <span class="text-lg mb-2">Datos Tecnicos</span>
                         <span>Matricula: <span class="text-gray-500"><?php echo $vehiculo_matricula; ?> </span></span>
                         <span>Motor: <span class="text-gray-500"><?php echo $motor; ?> </span></span>
-                        <span>Transmision: <span class="text-gray-500"><?php echo $trasmision; ?> </span></span>
-                        <span>Traccion: <span class="text-gray-500"><?php echo $traccion; ?> </span></span>
+                        <span>Transmision: <span class="text-gray-500"><?php echo $descripTrans; ?> </span></span>
+                        <span>Traccion: <span class="text-gray-500"><?php echo $descripTraccion; ?> </span></span>
+                        <span>Combustible: <span class="text-gray-500"><?php echo $descripcionCb; ?> </span></span>
                         <span>Pasajeros: <span class="text-gray-500"><?php echo $pasajeros; ?> </span></span>
                         <span>Puertas: <span class="text-gray-500"><?php echo $puertas; ?> </span></span>
                     </div>

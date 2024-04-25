@@ -8,6 +8,7 @@ $transmision = $mysqli->query("SELECT * FROM `transmision`");
 $consumo = $mysqli->query("SELECT * FROM `consumocombustibles`");
 $caracteristicas = $mysqli->query("SELECT * FROM `vehiculo_caracteristicas`");
 $capacidadbaul = $mysqli->query("SELECT * FROM `tamanobaul`");
+$traccion = $mysqli->query("SELECT * FROM `tracciones`");
 $favoritos = $mysqli->query("select * from favoritos left join vehiculos_venta on favoritos.idVehiculo = vehiculos_venta.idVehiculos_Venta left JOIN vehiculos_modelos on idVehiculos_Modelos = vehiculo_modelo  join vehiculos_marcas on vehiculos_modelos.marca = vehiculos_marcas.idVehiculos_Marca join vehiculo_categoria on vehiculos_venta.vehiculo_Categoria = vehiculo_categoria.idVehiculo_Categoria");
 ?>
 
@@ -68,7 +69,7 @@ $favoritos = $mysqli->query("select * from favoritos left join vehiculos_venta o
                                 while ($datos = $categoria->fetch_assoc()) {
                                 ?>
                                     <label class="bg-orange-600 rounded-lg p-1 ps-5 flex items-center h-fit">
-                                        <input type="checkbox" name="tipo[]" value="<?php echo $datos['idVehiculo_Categoria'] ?>">&nbsp;<?php echo $datos['nombre_Categoria'] ?>
+                                        <input type="checkbox" name="tipo_vehiculo[]" value="<?php echo $datos['idVehiculo_Categoria'] ?>">&nbsp;<?php echo $datos['nombre_Categoria'] ?>
                                     </label>
                                 <?php
                                 }
@@ -90,7 +91,7 @@ $favoritos = $mysqli->query("select * from favoritos left join vehiculos_venta o
                                 while ($datos = $combustible->fetch_assoc()) {
                                 ?>
                                     <label class="bg-orange-600 rounded-lg p-1 ps-5 flex items-center h-fit">
-                                        <input type="checkbox" name="tipo[]" value="<?php echo $datos['idcombustible'] ?>">&nbsp;<?php echo $datos['descripcionCb'] ?>
+                                        <input type="checkbox" name="tipo_combustible[]" value="<?php echo $datos['idcombustible'] ?>">&nbsp;<?php echo $datos['descripcionCb'] ?>
                                     </label>
                                 <?php
                                 }
@@ -112,7 +113,7 @@ $favoritos = $mysqli->query("select * from favoritos left join vehiculos_venta o
                                 while ($datos = $caracteristicas->fetch_assoc()) {
                                 ?>
                                     <label class="bg-orange-600 rounded-lg p-1 ps-5 flex items-center h-fit">
-                                        <input type="checkbox" name="tipo[]" value="<?php echo $datos['idVehiculo_Caracteristicas'] ?>">&nbsp;<?php echo $datos['Vehiculo_Caracteristica'] ?>
+                                        <input type="checkbox" name="caracteristicas[]" value="<?php echo $datos['idVehiculo_Caracteristicas'] ?>">&nbsp;<?php echo $datos['Vehiculo_Caracteristica'] ?>
                                     </label>
                                 <?php
                                 }
@@ -134,7 +135,7 @@ $favoritos = $mysqli->query("select * from favoritos left join vehiculos_venta o
                                 while ($datos = $capacidadbaul->fetch_assoc()) {
                                 ?>
                                     <label class="bg-orange-600 rounded-lg p-1 ps-5 flex items-center h-fit">
-                                        <input type="checkbox" name="tipo[]" value="<?php echo $datos['idTamanoBaul'] ?>">&nbsp;<?php echo $datos['descripBaul'] ?>
+                                        <input type="checkbox" name="tamano_bahul[]" value="<?php echo $datos['idTamanoBaul'] ?>">&nbsp;<?php echo $datos['descripBaul'] ?>
                                     </label>
                                 <?php
                                 }
