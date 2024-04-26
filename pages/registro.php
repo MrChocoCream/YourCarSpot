@@ -183,6 +183,11 @@ if (isset($_GET["id"])) {
                     </label>
 
                     <label>
+                        <span>MPG</span></br>
+                        <input required type="text" name="mpg" value="<?php if (isset($precio)) echo  $MPG; ?>" placeholder="MPG ">
+                    </label>
+
+                    <label>
                         <span>Trasmision</span></br>
                         <div>
                             <select id="Transmision" name="transmision" placeholder="Transmision">

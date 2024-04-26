@@ -14,8 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $UltimoID = 0;
          try {
             
-            $query = "INSERT INTO vehiculos_venta (`vehiculo_matricula`, `precio`, `year`, `vehiculo_modelo`, `image`, `vehiculo_Categoria`, `nuevo`, `puertas`, `motor`, `transmision`, `traccion`, `pasajeros`, `color`, `disponible`, `tipocombustible`, `tipoconsumo`, `tamano_baul`) 
-                           VALUES ('$Matricula', '$precio', '$year', '$modelo', '$foto', '$categoria', '$condicion', '$puertas', '$motor', '$transmision', '$traccion', '$pasajeros', '$color', 1, '$combustible', '$rendimiento', '$baul')";
+            $query = "INSERT INTO vehiculos_venta (`vehiculo_matricula`, `precio`, `year`, `vehiculo_modelo`, `image`, `vehiculo_Categoria`, `nuevo`, `puertas`, `motor`, `transmision`, `traccion`, `pasajeros`, `color`, `disponible`, `tipocombustible`, `tipoconsumo`, `tamano_baul`,`MPG`) 
+                           VALUES ('$Matricula', '$precio', '$year', '$modelo', '$foto', '$categoria', '$condicion', '$puertas', '$motor', '$transmision', '$traccion', '$pasajeros', '$color', 1, '$combustible', '$rendimiento', '$baul', '$mpg')";
 
             $mysqli->query($query);
             $_SESSION['success_message'] = "El Vehiculo fue registrado correctamente";

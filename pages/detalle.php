@@ -23,6 +23,11 @@ $modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
 
 $trans = $mysqli->query("SELECT descripTrans FROM `transmision`");
 
+$rendi= $mysqli->query("SELECT * FROM `consumocombustibles`");
+
+echo $rendi;
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -83,6 +88,7 @@ $trans = $mysqli->query("SELECT descripTrans FROM `transmision`");
                         <span class="text-lg mb-2">Datos Tecnicos</span>
                         <span>Matricula: <span class="text-gray-500"><?php echo $vehiculo_matricula; ?> </span></span>
                         <span>Motor: <span class="text-gray-500"><?php echo $motor; ?> </span></span>
+                        <span>MPG: <span class="text-gray-500"><?php echo $MPG; ?> </span> mpg</span>
                         <span>Transmision: <span class="text-gray-500"><?php echo $descripTrans; ?> </span></span>
                         <span>Traccion: <span class="text-gray-500"><?php echo $descripTraccion; ?> </span></span>
                         <span>Combustible: <span class="text-gray-500"><?php echo $descripcionCb; ?> </span></span>
